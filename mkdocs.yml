@@ -1,0 +1,9 @@
+site_name: FitLife Documentation
+docs_dir: docs
+theme:
+  name: readthedocs #material
+markdown_extensions:
+  - md_in_html
+plugins:
+  - search
+  - plantuml-colocator
