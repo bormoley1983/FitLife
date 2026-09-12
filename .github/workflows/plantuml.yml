@@ -25,18 +25,18 @@ jobs:
     - name: Install PlantUML
       run: sudo apt-get install plantuml
 
-    - name: Generate Diagrams
+    - name: Generate Architecture Diagrams
       run: |
-        plantuml docs/diagrams/context/*.puml
-        plantuml docs/diagrams/container/*.puml
-        plantuml docs/diagrams/component/*.puml
-        plantuml docs/diagrams/code/*.puml
+        plantuml docs/architecture/context/*.puml
+        plantuml docs/architecture/container/*.puml
+        plantuml docs/architecture/component/*.puml
+        plantuml docs/architecture/code/*.puml
 
-    - name: Commit Diagrams
+    - name: Commit Architecture Diagrams
       run: |
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        git add docs/diagrams/**/*.png
+        git add docs/architecture/**/*.png
         git commit -m "Automated diagram generation"
         git push origin main
       if: success() 
