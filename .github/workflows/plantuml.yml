@@ -22,21 +22,23 @@ jobs:
         distribution: temurin
         java-version: '25'
 
-    - name: Install PlantUML
-      run: sudo apt-get install plantuml
+    - name: Download PlantUML
+      run: curl -fsSL --retry 3 --output plantuml.jar https://github.com/plantuml/plantuml/releases/latest/download/plantuml.jar
 
     - name: Generate Architecture Diagrams
       run: |
-        plantuml docs/architecture/context/*.puml
-        plantuml docs/architecture/container/*.puml
-        plantuml docs/architecture/component/*.puml
-        plantuml docs/architecture/code/*.puml
+        java -jar plantuml.jar docs/architecture/context/*.puml
+        java -jar plantuml.jar docs/architecture/container/*.puml
+        java -jar plantuml.jar docs/architecture/component/*.puml
+        java -jar plantuml.jar docs/architecture/code/*.puml
 
     - name: Commit Architecture Diagrams
       run: |
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
         git add docs/architecture/**/*.png
-        git commit -m "Automated diagram generation"
-        git push origin main
-      if: success() 
+        git diff --cached --quiet || {
+          git commit -m "Automated diagram generation"
+          git push origin main
+        }
+      if: success()
